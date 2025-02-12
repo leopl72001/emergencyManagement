@@ -1,12 +1,20 @@
 package services;
 
+import models.Emergency;
 import patterns.observer.EmergencyObserver;
 
-public class FireFighter implements EmergencyObserver {
-    @Override
-    public void update(String emergencyType) {
-        if (emergencyType.equalsIgnoreCase("fire")) {
-            System.out.println("🚒 Bomberos en camino para apagar el incendio.");
-        }
+public class FireFighter extends baseService {
+
+    public FireFighter(String id, int availableStaff, int fuel) {
+        super(id, availableStaff, fuel);  //TODO Auto-generated constructor stub
     }
-}
+
+    @Override
+    public void addressEmergency(Emergency emergency) {
+        System.out.println("🚨 Bomberos en camino!!!");
+        System.out.println("-> [Bomberos" + getId() + "]: " + emergency.toString());
+        assignStaff(5);
+        assignFuel(10);
+    }
+   
+    }

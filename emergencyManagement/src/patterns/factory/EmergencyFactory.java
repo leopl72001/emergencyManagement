@@ -1,18 +1,24 @@
 package patterns.factory;
 
-import models.*;
+import utils.EnumSeverityPriority;
+import models.Emergency;
+import utils.EnumTypeEmergency;
+import models.FireEmergency;
+import models.RobberyEmergency;
+import models.VehicleAccidentEmergency;
 
 public class EmergencyFactory {
-    public static Emergency createEmergency(String type, String location, int severity, int additionalSeverity) {
-        switch (type.toLowerCase()) {
-            case "fire":
-                return new FireEmergency(location, severity, additionalSeverity);
-            case "robbery":
-                return new RobberyEmergency(location, severity, additionalSeverity);
-            case "accident":
-                return new VehicleAccidentEmergency(location, severity, additionalSeverity);
+    public static Emergency createEmergency(EnumTypeEmergency type, String location, EnumSeverityPriority severity, int timeResponse) {
+        switch (type) {
+            case ROBBERY:
+                return new RobberyEmergency(location, severity, timeResponse);
+            case VEHICULAR_ACCIDENT:
+                return new VehicleAccidentEmergency(location, severity, timeResponse);
+            case FIRE:
+                return new FireEmergency(location, severity, timeResponse);
             default:
-                throw new IllegalArgumentException("Tipo de emergencia desconocido: " + type);
+                return null;
         }
+
     }
 }

@@ -1,12 +1,20 @@
 package services;
 
+import models.Emergency;
 import patterns.observer.EmergencyObserver;
 
-public class Ambulance implements EmergencyObserver {
-    @Override
-    public void update(String emergencyType) {
-        if (emergencyType.equalsIgnoreCase("accident")) {
-            System.out.println("🚑 Ambulancia en camino para atender el accidente.");
-        }
+public class Ambulance extends baseService {
+
+    public Ambulance(String id, int availableStaff, int fuel) {
+        super(id, availableStaff, fuel);
     }
+
+    @Override
+    public void addressEmergency(Emergency emergency) {
+        System.out.println("🚨 Ambulacia en camino!!!");
+        System.out.println("-> [Ambulancia" + getId() + "]: " + emergency.toString());
+        assignStaff(3);
+        assignFuel(5);
+    }
+
 }

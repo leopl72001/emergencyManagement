@@ -1,4 +1,4 @@
-package patterns;
+package controller;
 
 public class ResourceController {
     private static ResourceController instance;
