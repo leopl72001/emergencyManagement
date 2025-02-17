@@ -9,15 +9,15 @@ public class StrategyPriorityProximity implements StrategyPriority {
             try {
                 EnumLocation enumLocation = EnumLocation.valueOf(location.toLowerCase());
                 switch (enumLocation) {
-                    case ZONA_NORTH:
+                    case VILLA_MARIA:
                         return 8;
-                    case ZONA_SUR:
+                    case VILLA_ADELA:
                         return 10;
-                    case ZONA_CENTER:
+                    case VILLA_REY:
                         return 5;
-                    case ZONA_EAST:
+                    case VILLA_LINDA:
                         return 15;
-                    case ZONA_WESTERN:
+                    case VILLA_SOL:
                         return 20;
                     default:
                         return 10;

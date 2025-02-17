@@ -15,6 +15,7 @@ import patterns.strategy.StrategyPriority;
 import patterns.strategy.StretegySeverityPriority;
 import services.Ambulance;
 import services.FireFighter;
+import services.Police;
 
 public class EmergencySystem implements EmergencySubject {
     private static EmergencySystem instance;
@@ -96,50 +97,83 @@ public class EmergencySystem implements EmergencySubject {
     public void assignResourcesEmergency(Emergency emergency) {
         List<IemergencyService> resourcesAvailable = filterResourcesAvailable();
         if (resourcesAvailable.isEmpty()) {
-            System.out.println("No hay recursos disponibles para atender la emergencia");
+            System.out.println("❌ No hay recursos disponibles para atender la emergencia.");
             return;
         }
-        System.out.println("Asignando recursos para la emergencia... ");
+    
+        IemergencyService assignedResource = null;
+    
         if (emergency instanceof FireEmergency) {
-            for (IemergencyService resource : resourcesAvailable) {
-                if (resource instanceof FireFighter) {
-                    resource.addressEmergency(emergency);
-                    break;
-                }
-            }
-
+            assignedResource = resourcesAvailable.stream()
+                    .filter(r -> r instanceof FireFighter)
+                    .findFirst()
+                    .orElse(null);
         } else if (emergency instanceof VehicleAccidentEmergency) {
-            for (IemergencyService resource : resourcesAvailable) {
-                if (resource instanceof Ambulance) {
-                    resource.addressEmergency(emergency);
-                    break;
-                }
-            }
+            assignedResource = resourcesAvailable.stream()
+                    .filter(r -> r instanceof Ambulance)
+                    .findFirst()
+                    .orElse(null);
         } else if (emergency instanceof RobberyEmergency) {
-            for (IemergencyService resource : resourcesAvailable) {
-                if (resource instanceof Ambulance) {
-                    resource.addressEmergency(emergency);
-                    break;
-                }
-            }
+            assignedResource = resourcesAvailable.stream()
+                    .filter(r -> r instanceof Police)
+                    .findFirst()
+                    .orElse(null);
+        }
+    
+        if (assignedResource != null) {
+            System.out.println("🚨 Recurso asignado: " + assignedResource);
+            assignedResource.addressEmergency(emergency);
+            addressEmergency(emergency);
+        } else {
+            System.out.println("❌ No se encontró un recurso adecuado para esta emergencia.");
         }
     }
 
     public void addressEmergency(Emergency e) {
-        if (e.isAttended()) {
-            System.out.println("La emergencia ya fue atendida");
-            return;
-        }
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-        e.endAttention();
-        System.out.println("emergencia atendida: " + e.getDescription());
-        emergencieaAttended++;
-        totalTimeAttention += e.getTimeResponse();
+    if (e.isAttended()) {
+        System.out.println("La emergencia ya fue atendida");
+        return;
     }
+
+    // Buscar y asignar un recurso disponible
+    List<IemergencyService> resourcesAvailable = filterResourcesAvailable();
+    IemergencyService assignedResource = null;
+
+    for (IemergencyService resource : resourcesAvailable) {
+        if ( (e instanceof FireEmergency && resource instanceof FireFighter) ||
+             (e instanceof VehicleAccidentEmergency && resource instanceof Ambulance) ||
+             (e instanceof RobberyEmergency && resource instanceof Police) ) {
+            assignedResource = resource;
+            break;
+        }
+    }
+
+    if (assignedResource == null) {
+        System.out.println("❌ No hay recursos disponibles para atender la emergencia.");
+        return;
+    }
+
+    // Simulación de tiempo de atención
+    try {
+        Thread.sleep(500);
+    } catch (InterruptedException ex) {
+        Thread.currentThread().interrupt();
+    }
+
+    // Reducir recursos (Ejemplo: 1 persona y 10 unidades de combustible por emergencia)
+    assignedResource.reducePersonnel(1);
+    assignedResource.reduceFuel(10);
+
+    // Marcar como no disponible si ya no tiene personal
+    if (assignedResource.getPersonnelAvailable() == 0) {
+        assignedResource.setAvailable(false);
+    }
+
+    e.endAttention();
+    System.out.println("✅ Emergencia atendida: " + e.getDescription());
+    emergencieaAttended++;
+    totalTimeAttention += e.getTimeResponse();
+}
 
     public void showStatistics() {
         System.out.println(" \nEstadisticas: ");

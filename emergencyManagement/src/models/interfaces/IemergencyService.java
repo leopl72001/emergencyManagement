@@ -6,17 +6,19 @@ public interface IemergencyService {
 
     String getId();
 
-    int getAvailableStaff();
+    int getPersonnelAvailable();
 
     int getFuel();
 
     boolean isAvailable();
 
+    void setAvailable(boolean available);
+
     void assignStaff(int quantity);
 
-    void releaseStaff(int quantity);
+    void reducePersonnel(int quantity);
 
-    void wasteFuel(int quantity);
+    void reduceFuel(int quantity);
 
     void assignFuel(int quantity);
 

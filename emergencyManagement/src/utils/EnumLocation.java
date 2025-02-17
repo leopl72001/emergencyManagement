@@ -1,10 +1,10 @@
 package utils;
 
 public enum EnumLocation {
-ZONA_NORTH,
-ZONA_SUR,
-ZONA_CENTER,
-ZONA_EAST,
-ZONA_WESTERN
+VILLA_MARIA,
+VILLA_SOL,
+VILLA_LINDA,
+VILLA_ADELA,
+VILLA_REY
 
 }

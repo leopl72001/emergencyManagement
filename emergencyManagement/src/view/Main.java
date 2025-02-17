@@ -9,6 +9,7 @@ import patterns.factory.EmergencyFactory; // Importar la clase EmergencyFactory
 import services.FireFighter; // Importar la clase FireFighter
 import services.Ambulance; // Importar la clase Ambulance
 import services.Police; // Importar la clase Police
+import utils.EnumLocation;
 import utils.EnumSeverityPriority;
 import utils.EnumTypeEmergency;
 
@@ -18,9 +19,9 @@ public class Main {
         initializeResources(emergency);
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
-
+        // Inicio de la jornada
         while (!exit) {
-            System.out.println("\n🚨 ===SISTEMA DE GESTIÓN DE EMERGENCIAS=== 🚨");
+            System.out.println("\n===SISTEMA DE GESTIÓN DE EMERGENCIAS=== 🚨");
             System.out.println("1. Registrar una nueva emergencia");
             System.out.println("2. Ver estado de recursos disponibles");
             System.out.println("3. Atender una emergencia");
@@ -60,6 +61,7 @@ public class Main {
         sc.close();
     }
 
+    // Inicializar recursos
     private static void initializeResources(EmergencySystem emergency) {
         emergency.registerResource(new Ambulance("AMB-2025-001 ", 4, 100));
         emergency.registerResource(new Ambulance("AMB-2025-002", 4, 100));
@@ -72,13 +74,14 @@ public class Main {
         emergency.registerResource(new Police("POL-2025-003", 5, 100));
     }
 
+    // Ingresar nueva emergencia
     private static void registerEmergencyMenu(EmergencySystem emergency, Scanner sc) {
         System.out.println("\n=== REGISTRAR NUEVA EMERGENCIA ===");
         System.out.println("1. Incendio");
         System.out.println("2. Accidente Vehicular");
         System.out.println("3. Robo");
         System.out.print("Seleccione el tipo: ");
-
+        // Mostrar menú de tipos
         EnumTypeEmergency type = null;
         switch (Integer.parseInt(sc.nextLine())) {
             case 1:
@@ -95,9 +98,20 @@ public class Main {
                 return;
         }
 
-        System.out.print(
-                "Ingrese ubicación (ejemplo: villa maria, villa linda, villa sol, villa adela, villa rey): ");
-        String location = sc.nextLine();
+        // Mostrar menú de ubicaciones
+        System.out.println("\nSeleccione la ubicación de la emergencia:");
+        EnumLocation[] locations = EnumLocation.values();
+        for (int i = 0; i < locations.length; i++) {
+            System.out.println((i + 1) + ". " + locations[i]);
+        }
+        System.out.print("Seleccione una opción: ");
+
+        int locationIndex = Integer.parseInt(sc.nextLine()) - 1;
+        if (locationIndex < 0 || locationIndex >= locations.length) {
+            System.out.println("Opción inválida");
+            return;
+        }
+        String location = locations[locationIndex].toString();
 
         System.out.print("Ingrese nivel de gravedad (1. Bajo, 2. Medio, 3. Alto): ");
         int severityOption = Integer.parseInt(sc.nextLine());
@@ -117,7 +131,7 @@ public class Main {
                 System.out.println("Opción inválida, seleccione un valor entre 1 y 3.");
                 return;
         }
-
+        // Ingresar tiempo de respuesta
         System.out.print("Ingrese tiempo de respuesta (en minutos): ");
         int timeResponse = Integer.parseInt(sc.nextLine());
 
@@ -125,13 +139,14 @@ public class Main {
 
         if (newEmergency == null) {
             System.out.println("Tipo de emergencia inválido.");
-            return; // Termina el método si la emergencia no es válida
+            return;
         }
 
         emergency.registerNewEmergency(newEmergency);
-        System.out.println("Emergencia registrada: " + newEmergency);
+        System.out.println("✅ Emergencia registrada: " + newEmergency);
     }
 
+    // Atender emergencia
     private static void attendEmergencyMenu(EmergencySystem emergency, Scanner sc) {
         List<Emergency> emergencies = emergency.getPendingEmergencies();
         if (emergencies.isEmpty()) {
@@ -148,6 +163,7 @@ public class Main {
             System.out.println("Opción inválida");
             return;
         }
+        // Atender emergencia
         Emergency emergencyToAttend = emergencies.get(option - 1);
         emergency.addressEmergency(emergencyToAttend);
     }
