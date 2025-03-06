@@ -41,7 +41,7 @@ public abstract class baseService implements IemergencyService {
     }
 
     @Override
-    public void assignStaff(int quantity) {  // Agregamos @Override
+    public void assignStaff(int quantity) { // Agregamos @Override
         this.availableStaff += quantity;
     }
 
@@ -68,6 +68,6 @@ public abstract class baseService implements IemergencyService {
 
     @Override
     public String toString() {
-        return "ServicioBase [id=" + id + ", personalDisponible=" + availableStaff + ", combustible=" + fuel + "]";
+        return " -> ServicioBase " + id + ", Patrulla: " + availableStaff + ", combustible: " + fuel;
     }
 }

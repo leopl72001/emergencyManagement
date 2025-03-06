@@ -63,15 +63,9 @@ public class Main {
 
     // Inicializar recursos
     private static void initializeResources(EmergencySystem emergency) {
-        emergency.registerResource(new Ambulance("AMB-2025-001 ", 4, 100));
-        emergency.registerResource(new Ambulance("AMB-2025-002", 4, 100));
-        emergency.registerResource(new Ambulance("AMB-2025-003", 4, 100));
-        emergency.registerResource(new FireFighter("BOM-2025-001", 5, 100));
-        emergency.registerResource(new FireFighter("BOM-2025-002", 5, 100));
-        emergency.registerResource(new FireFighter("BOM-2025-003", 5, 100));
-        emergency.registerResource(new Police("POL-2025-001", 5, 100));
-        emergency.registerResource(new Police("POL-2025-002", 5, 100));
-        emergency.registerResource(new Police("POL-2025-003", 5, 100));
+        emergency.registerResource(new Ambulance("Ambulancia ", 5, 100));
+        emergency.registerResource(new FireFighter("Bomberos", 5, 100));
+        emergency.registerResource(new Police("Policia", 5, 100));
     }
 
     // Ingresar nueva emergencia
