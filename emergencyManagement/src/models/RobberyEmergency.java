@@ -1,20 +1,11 @@
 package models;
 
+import utils.EnumSeverityPriority;
+
 public class RobberyEmergency extends Emergency {
-    private int roberySeverity; // Nivel de intensidad del fuego
 
-    public RobberyEmergency(String location, int severity, int roberySeverity) {
-        super(location, severity);
-        this.roberySeverity = roberySeverity;
+    public RobberyEmergency(String location, EnumSeverityPriority severity, int timeResponse) {
+        super("ROBO", location, severity, timeResponse, false);
     }
 
-    public int getRoberySeverity() {
-        return roberySeverity;
-    }
-
-    @Override
-    public void handleEmergency() {
-        System.out.println("👮 Enviando una patrulla de la policia a " + location + " Severidad del robo: " + roberySeverity);
-    }
 }
-

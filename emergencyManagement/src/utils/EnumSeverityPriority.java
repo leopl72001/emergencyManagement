@@ -1,7 +1,7 @@
 package utils;
 
 public enum EnumSeverityPriority {
-HIGH,
-MEDIUM,
-LOW
+ALTA,
+MEDIO,
+BAJA
 }

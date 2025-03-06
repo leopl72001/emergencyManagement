@@ -8,13 +8,13 @@ public class StretegySeverityPriority implements StrategyPriority {
     @Override
     public int calculatePriority(Emergency emergency) {
         try {
-            EnumSeverityPriority enumSeverityPriority = emergency.getSeverityPriority();
-            switch (enumSeverityPriority) {
-                case HIGH:
+            EnumSeverityPriority severity = emergency.getSeverity(); 
+            switch (severity) {
+                case ALTA:
                     return 3;
-                case MEDIUM:
+                case MEDIO:
                     return 2;
-                case LOW:
+                case BAJA:
                     return 1;
 
                 default:
